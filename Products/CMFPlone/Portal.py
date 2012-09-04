@@ -21,6 +21,7 @@ from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.i18n.locales.interfaces import IMetadataLanguageAvailability
 from zope.interface import implements
 from zope.component import queryUtility
+from zope.location.interfaces import IContained
 
 member_indexhtml = """\
 member_search=context.restrictedTraverse('member_search_form')
@@ -34,7 +35,7 @@ class PloneSite(CMFSite, OrderedContainer, BrowserDefaultMixin, UniqueObject):
     security = ClassSecurityInfo()
     meta_type = portal_type = 'Plone Site'
 
-    implements(IPloneSiteRoot)
+    implements(IPloneSiteRoot, IContained)
 
     manage_options = (
         CMFSite.manage_options[:2] +
