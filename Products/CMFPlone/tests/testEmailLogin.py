@@ -62,9 +62,31 @@ class TestEmailLogin(PloneTestCase.PloneTestCase):
         self.assertTrue(pattern.match('user@example.org'))
         self.assertTrue(pattern.match('user123@example.org'))
         self.assertTrue(pattern.match('user.name@example.org'))
-        # PLIP9214: perhaps we should change the regexp so the next
-        # test passes as well?
-        #self.assertTrue(pattern.match('user+test@example.org'))
+
+    def testIsMemberIdAllowed(self):
+        # The standard member id pattern now accepts normal email
+        # addresses like above, but it has troubles with some special
+        # addresses that are still allowed as email address.  We allow
+        # that when use_email_as_login is switched on.
+        # See https://dev.plone.org/ticket/11616
+        props = getToolByName(self.portal, 'portal_properties').site_properties
+        props._updateProperty('use_email_as_login', True)
+        registration = getToolByName(self.portal, 'portal_registration')
+        self.assertTrue(registration.isMemberIdAllowed('user@example.org'))
+        self.assertTrue(registration.isMemberIdAllowed('user+test@example.org'))
+        self.assertTrue(registration.isMemberIdAllowed("o'hara@example.org"))
+        # Some strange but valid email address will now be allowed,
+        # because of the standard pattern:
+        self.assertTrue(registration.isMemberIdAllowed("no.address@example"))
+        # But those will not validate as email address, so they will
+        # be rejected in a different part of the code.
+        from Products.CMFPlone.PloneTool import EMAIL_RE
+        self.assertFalse(EMAIL_RE.match('no.address@example'))
+        # We do still allow normal non-email addresses, just to be
+        # sure, because some code might directly call the registration
+        # tool.  The standard registration form in the Plone UI will
+        # check if an email address is filled in.
+        self.assertTrue(registration.isMemberIdAllowed('joe'))
 
     def test_get_member_by_login_name(self):
         memship = self.portal.portal_membership

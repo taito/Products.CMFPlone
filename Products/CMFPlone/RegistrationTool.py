@@ -199,8 +199,20 @@ class RegistrationTool(PloneBaseTool, BaseTool):
     def isMemberIdAllowed(self, id):
         if len(id) < 1 or id == 'Anonymous User':
             return 0
+        props = getToolByName(self, 'portal_properties').site_properties
+        # Note that we cannot set the EMAIL_RE as the default allowed
+        # member id pattern, because then we are not allowed to enter
+        # 'joe' as login name even when not using email as login,
+        # because it is not formed as an email address.
         if not self._ALLOWED_MEMBER_ID_PATTERN.match(id):
-            return 0
+            # Okay, no regular id.
+            if not props.use_email_as_login:
+                # And email addresses are not allowed either.  Fail.
+                return 0
+            elif not EMAIL_RE.match(id):
+                # Email addresses are allowed, but this is not an
+                # email address.
+                return 0
 
         pas = getToolByName(self, 'acl_users')
         if IPluggableAuthService.providedBy(pas):
