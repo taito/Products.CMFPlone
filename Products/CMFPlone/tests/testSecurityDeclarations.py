@@ -391,20 +391,6 @@ class TestAllowSendtoSecurity(PloneTestCase.PloneTestCase):
 
         self.assertFalse(checkPermission(AllowSendto, self.portal))
 
-    def test_sendto_script_failes(self):
-        # set permission to Manager only
-        self.setRoles(['Manager'])
-        self.portal.manage_permission(AllowSendto, roles=('Manager',),
-                                      acquire=False)
-        self.setRoles(['Member'])
-        # get sendto script in context of folder
-        sendto = self.folder.sendto
-        # should faile with the not allowed msg check if the msg
-        # contains the string
-        msg = sendto()
-        errormsg = "You%20are%20not%20allowed%20to%20send%20this%20link"
-        self.assertFalse(str(msg).find(errormsg) != -1, str(msg))
-
 
 class TestSkinSecurity(PloneTestCase.PloneTestCase):
 
