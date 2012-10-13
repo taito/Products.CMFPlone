@@ -8,6 +8,9 @@ Changelog
 4.3a2 (unreleased)
 ------------------
 
+- Move personalize.cpy to plone_deprecated. It isn't used anymore.
+  [tschanzt]
+
 - Remove Plone's dependency on KSS. plone.app.kss is now an optional add-on.
   Functionality that used to be provided using KSS has been reimplemented.
   [esteele, vangheem, cah190, davisagli]
