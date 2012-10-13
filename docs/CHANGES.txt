@@ -8,6 +8,9 @@ Changelog
 4.3a2 (unreleased)
 ------------------
 
+- Move portrait_delete.cpy to plone_deprecated. It isn't used anymore.
+  [tschanzt]
+
 - Move personalize.cpy to plone_deprecated. It isn't used anymore.
   [tschanzt]
 
