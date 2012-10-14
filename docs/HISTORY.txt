@@ -6,6 +6,9 @@ For what's new in this release, see CHANGES.txt.
 4.2.1.1 (2012-08-23)
 ------------------
 
+- Use content_status_modifed view in transitionObjectsByPaths method
+  [maethu]
+
 - Fixed i18n of image view improvement introduced in 4.2.1.
   [vincentfretin]
 
