@@ -30,13 +30,13 @@ Now fill in the form:
 And submit it:
 
   >>> form.submit()
-  
+
   >>> browser.url
-  'http://nohost/plone/contact-info'
+  'http://nohost/plone/@@contact-info'
 
   >>> 'Mail sent' in browser.contents
   True
-  
+
 As part of our test setup, we replaced the original MailHost with our
 own version.  Our version doesn't mail messages, it just collects them
 in a list called ``messages``:

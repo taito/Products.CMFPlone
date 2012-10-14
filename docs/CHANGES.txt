@@ -8,6 +8,9 @@ Changelog
 4.3a2 (unreleased)
 ------------------
 
+- Move object_cut.cpy to plone_deprecated. There's a browserview in plone.app.content now.
+  [tschanzt]
+
 - Move portrait_delete.cpy to plone_deprecated. It isn't used anymore.
   [tschanzt]
 
