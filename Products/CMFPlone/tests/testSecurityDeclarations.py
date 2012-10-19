@@ -392,15 +392,6 @@ class TestAllowSendtoSecurity(PloneTestCase.PloneTestCase):
         self.assertFalse(checkPermission(AllowSendto, self.portal))
 
 
-class TestSkinSecurity(PloneTestCase.PloneTestCase):
-
-    def test_OwnerCanViewConstrainTypesForm(self):
-        try:
-            self.folder.restrictedTraverse('folder_constraintypes_form')
-        except Unauthorized:
-            self.fail("Owner could not access folder_constraintypes_form")
-
-
 class TestNavtreeSecurity(PloneTestCase.PloneTestCase, RestrictedPythonTest):
 
     def testNavtreeStrategyBase(self):

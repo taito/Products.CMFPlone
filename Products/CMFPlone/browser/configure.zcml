@@ -75,6 +75,20 @@
       allowed_interface=".interfaces.ISitemapView"
       />
 
+  <browser:page
+      for="*"
+      name="contact-info"
+      template="contact-info.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
+      name="site-feedback"
+      class=".site_feedback.SiteFeedbackView"
+      permission="zope.Public"
+      />
+
    <adapter for="*
                 .interfaces.INavigationTree"
             factory=".navtree.DefaultNavtreeStrategy"

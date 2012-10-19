@@ -1269,10 +1269,11 @@ class PloneTool(PloneBaseTool, UniqueObject, SimpleItem):
             try:
                 o = traverse(path, None)
                 if o is not None:
-                    o.content_status_modify(workflow_action,
-                                            comment,
-                                            effective_date=effective_date,
-                                            expiration_date=expiration_date)
+                    traverse('%s/@@content_status_modify' % path)(
+                        workflow_action,
+                        comment,
+                        effective_date=effective_date,
+                        expiration_date=expiration_date)
             except ConflictError:
                 raise
             except Exception, e:
