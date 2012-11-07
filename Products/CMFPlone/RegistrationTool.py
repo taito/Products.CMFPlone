@@ -229,7 +229,6 @@ class RegistrationTool(PloneBaseTool, BaseTool):
                                 return 0
             # When email address are used as logins, we need to check
             # if there are any users with the requested login.
-            props = getToolByName(self, 'portal_properties').site_properties
             if props.use_email_as_login:
                 results = pas.searchUsers(login=id, exact_match=True)
                 if results:
