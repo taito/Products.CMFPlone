@@ -13,7 +13,10 @@
     <dependency>profile-plone.app.imaging:default</dependency>
     <dependency>profile-plone.app.jquery:default</dependency>
     <dependency>profile-plone.app.jquerytools:default</dependency>
+    <dependency>profile-plone.app.jscalendar:default</dependency>
+    <dependency>profile-plone.app.modersnizr:default</dependency>
     <dependency>profile-plone.app.registry:default</dependency>
+    <dependency>profile-plone.app.s5slideshow:default</dependency>
     <dependency>profile-plone.app.search:default</dependency>
     <dependency>profile-plone.portlet.collection:default</dependency>
     <dependency>profile-plone.portlet.static:default</dependency>
