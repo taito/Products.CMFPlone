@@ -9,6 +9,9 @@ Changelog
 4.2.3 (unreleased)
 -----------------
 
+- Change layout table in main_template to divs.
+  [TH-code]
+
 - Add various security fixes based on PloneHotfix20121106.
   [davisagli]
 
