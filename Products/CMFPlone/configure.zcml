@@ -21,9 +21,11 @@
   <include package="plone.app.i18n" />
   <include package="plone.app.jquery" />
   <include package="plone.app.jquerytools" />
+  <include package="plone.app.jscalendar" />
   <include package="plone.app.layout" />
   <include package="plone.app.linkintegrity" />
   <include package="plone.app.locales" />
+  <include package="plone.app.modernizr" />
   <include package="plone.app.portlets" />
   <include package="plone.app.redirector" />
   <include package="plone.app.search" />
