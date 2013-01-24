@@ -13,6 +13,15 @@
   </class>
 
   <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="author"
+      class=".author.ContentAuthor"
+      permission="zope.Public"
+      template="templates/author.pt"
+      />
+
+
+  <browser:page
       for="*"
       name="breadcrumbs_view"
       class=".navigation.PhysicalNavigationBreadcrumbs"
