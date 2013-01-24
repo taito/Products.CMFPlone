@@ -12,6 +12,7 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 
 from AccessControl import ClassSecurityInfo, Unauthorized
+from AccessControl import getSecurityManager
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
@@ -65,7 +66,7 @@ _icons = {}
 
 CEILING_DATE = DefaultDublinCoreImpl._DefaultDublinCoreImpl__CEILING_DATE
 FLOOR_DATE = DefaultDublinCoreImpl._DefaultDublinCoreImpl__FLOOR_DATE
-BAD_CHARS = re.compile(r'[^a-zA-Z0-9-_~,.$\(\)# ]').findall
+BAD_CHARS = bad_id.__self__.findall
 
 EMAIL_RE = re.compile(r"^(\w&.%#$&'\*+-/=?^_`{}|~]+!)*[\w&.%#$&'\*+-/=?^_`{}|~]+@(([0-9a-z]([0-9a-z-]*[0-9a-z])?\.)+[a-z]{2,6}|([0-9]{1,3}\.){3}[0-9]{1,3})$", re.IGNORECASE)
 # used to find double new line (in any variant)
@@ -1248,6 +1249,7 @@ class PloneTool(PloneBaseTool, UniqueObject, SimpleItem):
                 if handle_errors:
                     sp.rollback()
                     failure[path] = e
+                    log_exc()
                 else:
                     raise
         transaction_note('Deleted %s' % (', '.join(success)))
@@ -1312,6 +1314,7 @@ class PloneTool(PloneBaseTool, UniqueObject, SimpleItem):
                 change_title = new_title and title != new_title
                 changed = False
                 if change_title:
+                    getSecurityManager().validate(obj, obj, 'setTitle', obj.setTitle)
                     obj.setTitle(new_title)
                     notify(ObjectModifiedEvent(obj))
                     changed = True

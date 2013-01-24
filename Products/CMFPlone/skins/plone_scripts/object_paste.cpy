@@ -9,6 +9,7 @@
 ##title=Paste objects into the parent/this folder
 
 from AccessControl import Unauthorized
+from logging import getLogger
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFPlone.utils import transaction_note
 from ZODB.POSException import ConflictError
@@ -20,6 +21,8 @@ if not context.cb_dataValid():
 
 ok = True
 
+logger = getLogger("Plone")
+
 try:
     context.manage_pasteObjects(context.REQUEST['__cp'])
 except ConflictError:
@@ -30,6 +33,8 @@ except Unauthorized:
     msg = _(u'You are not authorized to paste here.')
     ok = False
 except Exception as e:
+    if '__cp' in context.REQUEST:
+        logger.exception('Exception during pasting')
     msg = e
     ok = False
 
@@ -38,5 +43,7 @@ if ok:
     context.plone_utils.addPortalMessage(_(u'Item(s) pasted.'))
     return state.set(status='success')
 else:
-    context.plone_utils.addPortalMessage(msg, 'error')
-    return state.set(status='failure')
+    # raise an Exception to abort the transaction. CMFFormController
+    # does not do this for us and the objects are already pasted. Otherwise
+    # we end up in an inconsistent state.
+    raise Exception(msg)

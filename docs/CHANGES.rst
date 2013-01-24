@@ -5,7 +5,7 @@
 Changelog
 =========
 
-4.3a2 (unreleased)
+4.3b3 (unreleased)
 ------------------
 
 - Move object_cut.cpy to plone_deprecated. There's a browserview in plone.app.content now.
@@ -17,9 +17,96 @@ Changelog
 - Move personalize.cpy to plone_deprecated. It isn't used anymore.
   [tschanzt]
 
+- Add event to fix products installed with latest keyword
+  activated by default. Event finds new products installed with
+  the latest keyword and updates them to the last profile version.
+  [eleddy]
+
+
+4.3b2 (2013-01-17)
+------------------
+
+- removing ``plone_ecmascript/test_ecmascripts.pt`` since its not working and
+  since its not being ran by out test suite.
+  [garbas]
+
+- Call searchUsers with the 'name' argument instead of 'login'.
+  'name' is the officially supported way according to the PAS interface.
+  [maurits]
+
+
+4.3b1 (2012-01-02)
+------------------
+
+- Changes to dependencies when creating a new site (plone-final) to fix
+  #11997.
+  [keul]
+
+- Generate valid atom feeds
+  [lentinj]
+
+- Fix quoted atom.xml feed syndication content type to "html".
+  [elro]
+
+- Add various security fixes based on PloneHotfix20121106.
+  [davisagli]
+
+- Fix RegistrationTool testPasswordValidity method. See
+  https://dev.plone.org/ticket/13325
+  [vipod]
+
+- Fix form_tabbing.js so it stays on the same fieldset when an Archetypes
+  edit form is submitted and returns to itself.
+  [davisagli]
+
+- Use the 'OFS.ObjectManager.bad_id' pattern in 'PloneTool.BAD_CHARS'.
+  This allows names containing '@' to pass 'check_id'.
+  [elro]
+
+- Pass minute_step to date_components_support_view.result(). See
+  https://dev.plone.org/ticket/11251
+  [gbastien]
+
+- Improve error handling on paste action. If it is a real error, the
+  error gets shown and logged.
+  [do3cc]
+
+- Fix sitemap rendering. No longer uses portlet_navtree_macro.pt from
+  the plone_deprecated skin, but a browser view template with much
+  simplified logic.
+  [danjacka]
+
+- Revealed hidden features for sorting folders (#11317).
+  [keul]
+
+- Don't swallow exceptins on object_paste and folder_paste (#9365).
+  [gaudenz]
+
+4.3a2 (2012-10-18)
+------------------
+
+- Use prefixed ids for popup overlays
+  [maartenkling]
+
+- Fix compatible hide fieldset legend for IE6/7/8 in form_tabbing.js
+  [maartenkling]
+
+- Add an animated indicator of AJAX loading via Javascript.
+  It is now called #ajax-spinner and is no longer added in main_template.
+  [davisagli]
+>>>>>>> origin/master:docs/CHANGES.rst
+
 - Remove Plone's dependency on KSS. plone.app.kss is now an optional add-on.
   Functionality that used to be provided using KSS has been reimplemented.
   [esteele, vangheem, cah190, davisagli]
+
+- Do not block right-side portlets in Members folder on site creation.
+  This fixes https://dev.plone.org/ticket/10764
+  [polyester]
+
+- Fix prefs_install_product_readme so files with non-ascii characters are
+  rendered. This fixes https://dev.plone.org/ticket/12342
+  [ericof]
 
 - Fix StringIO module security so it can still be imported from restricted
   code in Zope 2.13.17+.
@@ -53,6 +140,16 @@ Changelog
 
 - Remove h3 to make consistent html refs #11344
   [maartenkling]
+
+- Fix 'Add New' on Users/Groups Overviews shows overlay when clicking anywhere in form #12201
+  [maartenkling]
+
+- Fix events_listing #12477
+  [maartenkling]
+
+- Fix form_tabbing, to stay on current tab on submitting form
+  [maartenkling]
+
 
 4.3a1 (2012-08-31)
 ------------------

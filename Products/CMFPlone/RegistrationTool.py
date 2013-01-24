@@ -69,7 +69,7 @@ def get_member_by_login_name(context, login_name, raise_exceptions=True):
     # Try to find this user via the login name.
     acl = getToolByName(context, 'acl_users')
     userids = [user.get('userid') for user in
-               acl.searchUsers(login=login_name, exact_match=True)
+               acl.searchUsers(name=login_name, exact_match=True)
                if user.get('userid')]
     if len(userids) == 1:
         userid = userids[0]
@@ -161,11 +161,7 @@ class RegistrationTool(PloneBaseTool, BaseTool):
         o If not, return a string explaining why.
         """
         err = self.pasValidation('password', password)
-        if err is None:
-            return None
-        elif password == '':
-            return err
-        elif err != '' and not _checkPermission(ManagePortal, self):
+        if err and (password == '' or not _checkPermission(ManagePortal, self)):
             return err
 
         if confirm is not None and confirm != password:
@@ -275,11 +271,11 @@ class RegistrationTool(PloneBaseTool, BaseTool):
                             if parent.searchPrincipals(id=id,
                                                        exact_match=True):
                                 return 0
-            # When email address are used as logins, we need to check
+            # When email addresses are used as logins, we need to check
             # if there are any users with the requested login.
             props = getToolByName(self, 'portal_properties').site_properties
             if props.use_email_as_login:
-                results = pas.searchUsers(login=id, exact_match=True)
+                results = pas.searchUsers(name=id, exact_match=True)
                 if results:
                     return 0
         else:
