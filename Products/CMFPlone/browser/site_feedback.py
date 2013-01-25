@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_inner
-from zope.interface import implements
-from zope.component import getMultiAdapter
-
-from Acquisition import aq_base
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone import utils
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five import BrowserView
 
