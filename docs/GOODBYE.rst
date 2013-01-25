@@ -15,10 +15,22 @@ be affected in plone sites.
  - 
 
 
+
+Converted to Browser View
+=========================
+
+A list of things that were converted to Browser Views, no form changes.
+ 
+ - sitemap was moved browser/templates
+
+
+
 Deprecated
 ==========
 
 A list of things that were removed and not rewritten.
 
  - 
+
+
 
