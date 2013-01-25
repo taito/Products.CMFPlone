@@ -192,7 +192,7 @@
 
                             <div class="field"
                               tal:define="error errors/subject|nothing"
-                              tal:attributes="class python:test(error, 'field error', 'field')">
+                              tal:attributes="class python:error and 'field error' or 'field'">
                               <label for="subject" i18n:translate="label_subject">
                                 Subject
                               </label>
@@ -212,7 +212,7 @@
                             </div>
                             <div class="field"
                               tal:define="error errors/message|nothing"
-                              tal:attributes="class python:test(error, 'field error', 'field')">
+                              tal:attributes="class python:error and 'field error' or 'field'">
                               <label for="message" i18n:translate="label_message">
                                 Message
                               </label>
