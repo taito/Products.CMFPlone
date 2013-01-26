@@ -30,7 +30,6 @@ When viewing another author's page you should see a feedback form.
   >>> regtool = getToolByName(portal, 'portal_registration')
   >>> member = regtool.addMember('foo', 'barbaz', properties={'username':'foo','email':'foo@bla.com','fullname':u'Foo Barbaz'})
   >>> browser.open('http://nohost/plone/author/foo')
-  >>> import pdb; pdb.set_trace()
   >>> member.getProperty('fullname') in browser.contents
   True
   >>> mtool = getToolByName(portal, 'portal_membership')
