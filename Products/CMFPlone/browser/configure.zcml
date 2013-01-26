@@ -87,14 +87,8 @@
   <browser:page
       for="*"
       name="contact-info"
-      template="contact-info.pt"
-      permission="zope.Public"
-      />
-
-  <browser:page
-      for="*"
-      name="site-feedback"
-      class=".site_feedback.SiteFeedbackView"
+      class=".contact_info.ContactInfoView"
+      template="templates/contact-info.pt"
       permission="zope.Public"
       />
 
