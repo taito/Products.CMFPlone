@@ -11,6 +11,49 @@ We need to fake a valid mail setup:
   >>> portal.email_from_address = "mail@plone.test"
   >>> mailhost = self.portal.MailHost
 
+Author Form
+-----------
+
+On the author form you can send a mail to a particular user if you are logged 
+in and not viewing your own author page. 
+
+We expect a user name after '@@author' otherwise 404 returned.
+
+  >>> browser.open('http://nohost/plone/author')
+  Traceback (most recent call last):
+  ...
+  HTTPError: HTTP Error 404: Not Found
+
+When viewing another author's page you should see a feedback form.
+
+  >>> from Products.CMFCore.utils import getToolByName
+  >>> regtool = getToolByName(portal, 'portal_registration')
+  >>> member = regtool.addMember('foo', 'barbaz', properties={'username':'foo','email':'foo@bla.com','fullname':u'Foo Barbaz'})
+  >>> browser.open('http://nohost/plone/author/foo')
+  >>> import pdb; pdb.set_trace()
+  >>> member.getProperty('fullname') in browser.contents
+  True
+  >>> mtool = getToolByName(portal, 'portal_membership')
+  >>> mtool.getAuthenticatedMember().getId() != 'foo'
+  True
+  >>> 'Feedback for author' in browser.contents
+  True
+
+When viewing your own page, you dont dont see a feedback form.
+
+  >>> from plone.app.testing import TEST_USER_ID
+  >>> browser.open('http://nohost/plone/author/%s' % TEST_USER_ID)
+  >>> from Products.CMFCore.utils import getToolByName
+  >>> mtool = getToolByName(portal, 'portal_membership')
+  >>> member = mtool.getMemberById(TEST_USER_ID)
+  >>> member.getProperty('fullname') in browser.contents
+  True
+  >>> mtool.getAuthenticatedMember().getId() == TEST_USER_ID
+  True
+  >>> 'Feedback for author' not in browser.contents
+  True
+
+
 Contact form
 ------------
 
