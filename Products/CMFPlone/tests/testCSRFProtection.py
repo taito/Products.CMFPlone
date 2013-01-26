@@ -34,8 +34,10 @@ class AuthenticatorTestCase(ptc.FunctionalTestCase):
     def test_PloneTool_changeOwnershipOf(self):
         self.assertNotEqual(self.portal.getOwner().getUserName(),
                             ptc.default_user)
-        self.checkAuthenticator('/change_ownership',
-            'userid=%s' % ptc.default_user, status=302)
+        self.checkAuthenticator(
+            '/ownership_form',
+            'form.widgets.userid=%s' % ptc.default_user,
+            status=302)
         self.assertEqual(self.portal.getOwner().getUserName(),
                          ptc.default_user)
 

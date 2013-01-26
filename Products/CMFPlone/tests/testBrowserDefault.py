@@ -365,12 +365,3 @@ class TestPortalBrowserDefault(PloneTestCase.PloneTestCase):
         views = [v for v in self.portal.getAvailableLayouts()
                     if v[0] == 'folder_listing']
         self.assertEqual(views[0][1], 'Standard view')
-        try:
-            folderListing = self.portal.unrestrictedTraverse('folder_listing')
-            folderListing.title = 'foo'
-            views = [v for v in self.portal.getAvailableLayouts()
-                        if v[0] == 'folder_listing']
-            self.assertEqual(views[0][1], 'foo')
-        finally:
-            # Restore title to avoid side-effects
-            folderListing.title = 'Standard view'

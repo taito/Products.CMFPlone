@@ -45,7 +45,3 @@ class TestPloneTestCase(PloneTestCase.PloneTestCase):
         self.assertEqual(self.folder.new.EditableBody(), '')
         self.folder.new.edit('plain', 'data', file='', safety_belt='')
         self.assertEqual(self.folder.new.EditableBody(), 'data')
-
-    def testGetterSkinScript(self):
-        self.folder.invokeFactory('Document', id='new', title='Foo')
-        self.assertEqual(self.folder.new.TitleOrId(), 'Foo')
