@@ -41,7 +41,7 @@
         <div id="content-core">
             <form name="feedback_form"
                 class="enableAutoFocus"
-                action="@@site-feedback"
+                action="@@contact-info"
                 method="post">
 
             <tal:defs define="member context/@@plone_portal_state/member;
