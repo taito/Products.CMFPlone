@@ -24,7 +24,7 @@ class ContentAuthor(BrowserView):
     def __call__(self):
         if self.author is None:
             raise NotFound
-        if self.request.form.get('form.button.Send'):
+        if self.request.form.get('form.submitted'):
             self.validate()
             if not self.errors:
                 self.send_feedback()

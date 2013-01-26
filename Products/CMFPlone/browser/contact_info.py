@@ -1,7 +1,6 @@
 import logging
 from smtplib import SMTPException
  
-from ZODB.POSException import ConflictError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.Five import BrowserView
@@ -17,8 +16,7 @@ class ContactInfoView(BrowserView):
         self.errors = {}
 
     def __call__(self):
-#        import pdb; pdb.set_trace()
-        if self.request.form.get('form.button.Send'):
+        if self.request.form.get('form.submitted'):
             self.validate()
             if not self.errors:
                 self.send_feedback()
@@ -74,6 +72,7 @@ class ContactInfoView(BrowserView):
 
         pmessage = IStatusMessage(self.request)
         try:
+
             message = context.site_feedback_template(context, **variables)
             message = message.encode(encoding)
             result = host.send(message, send_to_address, from_address,
@@ -93,4 +92,4 @@ class ContactInfoView(BrowserView):
         request.set('sender_from_address', None)
         request.set('sender_fullname', None)
         
-        pmessage.add(_(u'Mail sent.'),'info')
+        pmessage.add(_(u'Mail sent.'))
