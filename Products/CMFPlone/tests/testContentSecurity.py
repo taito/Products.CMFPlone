@@ -107,7 +107,7 @@ class TestContentSecurity(PloneTestCase.PloneTestCase):
         subfolder.unrestrictedTraverse('@@sharing').update_inherit(False)
         #Turn off local role acquisition
         subfolder.invokeFactory('Document', id='new')
-        subfolder.new.content_status_modify(workflow_action='publish')
+        self.portal.portal_workflow.doActionfor(subfolder.new, 'publish')
         subfolder.new.manage_addLocalRoles('user2', ('Member',))
         self.login('user2')
         # This should not raise Unauthorized
@@ -116,7 +116,7 @@ class TestContentSecurity(PloneTestCase.PloneTestCase):
     def testViewAllowedOnContentInPrivateFolder(self):
         self.login('user1')
         folder = self.membership.getHomeFolder('user1')
-        folder.content_status_modify(workflow_action='private')
+        self.portal.portal_workflow.doActionfor(folder, 'private')
         folder.invokeFactory('Document', id='doc1')
         doc = folder.doc1
         doc.content_status_modify(workflow_action='publish')
@@ -159,7 +159,7 @@ class TestContentSecurity(PloneTestCase.PloneTestCase):
         subfolder = folder.subfolder
         subfolder.unrestrictedTraverse('@@sharing').update_inherit(False)
         subfolder.invokeFactory('Document', id='new')
-        subfolder.new.content_status_modify(workflow_action='publish')
+        self.portal.portal_workflow.doActionfor(subfolder.new, 'publish')
         subfolder.new.manage_addLocalRoles('user3', ('Member',))
         self.login('user3')
         # This shouldn't either, but strangely it never does even if the script

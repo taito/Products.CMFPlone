@@ -36,7 +36,8 @@ class AuthenticatorTestCase(ptc.FunctionalTestCase):
                             ptc.default_user)
         self.checkAuthenticator(
             '/ownership_form',
-            'form.widgets.userid=%s' % ptc.default_user,
+            'form.widgets.owner=%s&form.buttons.save=Save'
+            '&form.widgets.subobjects-empty-marker=1' % ptc.default_user,
             status=302)
         self.assertEqual(self.portal.getOwner().getUserName(),
                          ptc.default_user)

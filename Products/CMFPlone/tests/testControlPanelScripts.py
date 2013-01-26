@@ -35,8 +35,9 @@ class TestNoGETControlPanel(PloneTestCase.FunctionalTestCase):
         self.assertEqual(response.getStatus(), success)
 
     def test_changeOwnership(self):
-        path = self.folder_path + '/change_ownership'
-        qstring = 'userid=%s' % default_user
+        path = self.folder_path + '/ownership_form'
+        qstring = ('form.widgets.owner=%s&form.buttons.save=Save'
+                   '&form.widgets.subobjects-empty-marker=1' % default_user)
         self._onlyPOST(path, qstring, success=302)
 
     def test_loginChangePassword(self):
