@@ -14,8 +14,11 @@ We need to fake a valid mail setup:
 Author Form
 -----------
 
-On the author form you can send a mail to a particular user if you are logged 
-in and not viewing your own author page. 
+First, set up a user. We will later check this user's author page.
+
+  >>> from Products.CMFCore.utils import getToolByName
+  >>> regtool = getToolByName(portal, 'portal_registration')
+  >>> author = regtool.addMember('foo', 'barbaz', properties={'username':'foo','email':'foo@bla.com','fullname':u'Foo Barbaz'})
 
 We expect a user name after '@@author' otherwise 404 returned.
 
@@ -24,34 +27,106 @@ We expect a user name after '@@author' otherwise 404 returned.
   ...
   HTTPError: HTTP Error 404: Not Found
 
-When viewing another author's page you should see a feedback form.
+When viewing an author's page anonymously, raise Unauthorized if
+allowAnonymousViewAbout is not enabled. Note: The test browser does not yet have the authentication headers, so we are not logged in, even if bare python statements indicate otherwise.
 
-  >>> from Products.CMFCore.utils import getToolByName
-  >>> regtool = getToolByName(portal, 'portal_registration')
-  >>> member = regtool.addMember('foo', 'barbaz', properties={'username':'foo','email':'foo@bla.com','fullname':u'Foo Barbaz'})
+  >>> site_props = portal.portal_properties.site_properties
+  >>> setattr(site_props, 'allowAnonymousViewAbout', False)
   >>> browser.open('http://nohost/plone/author/foo')
-  >>> member.getProperty('fullname') in browser.contents
-  True
-  >>> mtool = getToolByName(portal, 'portal_membership')
-  >>> mtool.getAuthenticatedMember().getId() != 'foo'
-  True
-  >>> 'Feedback for author' in browser.contents
+  >>> 'id="login_form"' in browser.contents
   True
 
-When viewing your own page, you dont dont see a feedback form.
+  >>> setattr(site_props, 'allowAnonymousViewAbout', True)
+  >>> browser.open('http://nohost/plone/author/foo')
+  >>> 'id="login_form"' not in browser.contents
+  True
+  >>> author.getProperty('fullname') in browser.contents
+  True
 
-  >>> from plone.app.testing import TEST_USER_ID
-  >>> browser.open('http://nohost/plone/author/%s' % TEST_USER_ID)
+When not logged in, you should see a button to log in to send feedback.
+  >>> 'Log in to send feedback' in browser.contents
+  True
+
+No we authenticate.
+  >>> from Products.PloneTestCase.setup import portal_owner
+  >>> from Products.PloneTestCase.setup import default_password
+  >>> browser.addHeader('Authorization',
+  ...                   'Basic %s:%s' % (portal_owner, default_password))
+
+When logged in and viewing your own author page, you don't see a feedback form.
+
+  >>> browser.open('http://nohost/plone/author/%s' % portal_owner)
   >>> from Products.CMFCore.utils import getToolByName
   >>> mtool = getToolByName(portal, 'portal_membership')
-  >>> member = mtool.getMemberById(TEST_USER_ID)
+  >>> member = mtool.getMemberById(portal_owner)
   >>> member.getProperty('fullname') in browser.contents
-  True
-  >>> mtool.getAuthenticatedMember().getId() == TEST_USER_ID
   True
   >>> 'Feedback for author' not in browser.contents
   True
 
+When logged in and viewing another author's page you should see a feedback form.
+However, you need to have a valid email set.
+
+  >>> browser.open('http://nohost/plone/author/foo')
+  >>> author.getProperty('fullname') in browser.contents
+  True
+  >>> 'You do not have an email address,' in browser.contents
+  True
+
+Once the email is set, the form appears.
+
+  >>> member.setMemberProperties(mapping={'email': 'portalowner@plone.org'})
+  >>> browser.open('http://nohost/plone/author/foo')
+  >>> author.getProperty('fullname') in browser.contents
+  True
+  >>> 'Feedback for author' in browser.contents
+  True
+
+Let's now submit the feedback form.
+
+  >>> form = browser.getForm(name='feedback_form')
+  >>> form.getControl(name='subject').value = 'Some t\xc3\xa4st subject.'
+  >>> form.getControl(name='message').value = 'Another t\xc3\xa4st message.'
+  >>> form.submit()
+
+We expect to return to the same page.
+  >>> browser.url
+  'http://nohost/plone/author/foo'
+
+  >>> 'Mail sent' in browser.contents
+  True
+
+As part of our test setup, we replaced the original MailHost with our
+own version.  Our version doesn't mail messages, it just collects them
+in a list called ``messages``:
+
+  >>> len(mailhost.messages)
+  1
+
+Now that we have the message, we want to look at its contents:
+
+  >>> msg = mailhost.messages[0]
+  >>> 'To: foo@bla.com' in msg
+  True
+
+We expect the headers to be properly header encoded (7-bit):
+
+  >>> 'Subject: =?utf-8?q?Some_t=C3=A4st_subject=2E?=' in msg
+  True
+
+The output should be encoded in a reasonable manner (in this case
+quoted-printable).  There may be some small differences in where
+exactly the lines are cut off, depending on whether you use five.pt or
+not, so we turn the message into one line first:
+
+  >>> msg.replace('=\n', '').replace('\n', ' ')
+  '...You are receiving this mail because (portal_owner), portalowner@plone.org is sending feedback about content you created at localhost...'
+
+
+Clean up the mailhost message list.
+  >>> del mailhost.messages[0]
+  >>> len(mailhost.messages)
+  0
 
 Contact form
 ------------
