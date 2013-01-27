@@ -24,7 +24,10 @@ A list of things that were converted to Browser Views, no form changes.
  - sitemap was moved browser/templates
  - author.cpt, author.cpt.metadata, send_feedback.cpy and validate_feedback.vpy functionality was converted to a browser
    view, author.pt is in browser/templates
-
+ - recently_published.pt
+ - recently_modified.pt
+ - accessibility-info.pt
+ - events_listing.pt
 
 
 Deprecated
