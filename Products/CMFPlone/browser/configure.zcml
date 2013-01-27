@@ -99,6 +99,13 @@
       />
 
   <browser:page
+      for="*"
+      name="site-feedback-template"
+      template="templates/site_feedback_template.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       name="author"
       class=".author.ContentAuthor"
@@ -106,6 +113,12 @@
       template="templates/author.pt"
       />
 
+  <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="author-feedback-template"
+      template="templates/author_feedback_template.pt"
+      permission="zope.Public"
+      />
 
    <adapter for="*
                 .interfaces.INavigationTree"

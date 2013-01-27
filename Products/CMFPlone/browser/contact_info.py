@@ -72,8 +72,7 @@ class ContactInfoView(BrowserView):
 
         pmessage = IStatusMessage(self.request)
         try:
-
-            message = context.site_feedback_template(context, **variables)
+            message = context.restrictedTraverse('@@site-feedback-template')(context, **variables)
             message = message.encode(encoding)
             result = host.send(message, send_to_address, from_address,
                             subject=subject, charset=encoding)

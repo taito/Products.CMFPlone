@@ -92,7 +92,7 @@ class ContentAuthor(BrowserView):
 
         pmessage = IStatusMessage(self.request)
         try:
-            message = context.author_feedback_template(context, **variables)
+            message = context.restrictedTraverse('@@author-feedback-template')(context, **variables)
             message = message.encode(encoding)
             envelope_from = portal.getProperty('email_from_address')
             result = host.send(message, send_to_address, envelope_from,
