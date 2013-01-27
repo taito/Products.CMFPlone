@@ -28,6 +28,7 @@ A list of things that were converted to Browser Views, no form changes.
  - recently_modified.pt
  - accessibility-info.pt
  - events_listing.pt
+ - send_feedback_confirm.cpt
 
 
 Deprecated
