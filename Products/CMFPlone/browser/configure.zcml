@@ -13,6 +13,14 @@
   </class>
 
   <browser:page
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      name="events_listing"
+      class=".events.EventsListingView"
+      template="templates/events_listing.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
       for="*"
       name="breadcrumbs_view"
       class=".navigation.PhysicalNavigationBreadcrumbs"
