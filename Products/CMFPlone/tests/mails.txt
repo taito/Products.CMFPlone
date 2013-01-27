@@ -148,10 +148,15 @@ And submit it:
 
   >>> form.submit()
 
+We expect to return to the same page.
+
   >>> browser.url
-  'http://nohost/plone/@@contact-info'
+  'http://nohost/plone/@@send-feedback-confirm'
 
   >>> 'Mail sent' in browser.contents
+  True
+
+  >>> 'A mail has now been sent to the site administrator regarding your' in browser.contents
   True
 
 As part of our test setup, we replaced the original MailHost with our
@@ -189,3 +194,4 @@ lines ending in different spots:
   >>> import quopri
   >>> quopri.decodestring(msg).replace('\n', ' ')
   '...Another t\xc3\xa4st message...You are receiving this mail because T\xc3\xa4st user test@plone.test...is sending feedback about the site you administer at...'
+

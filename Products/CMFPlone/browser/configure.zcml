@@ -107,6 +107,13 @@
 
   <browser:page
       for="*"
+      name="send-feedback-confirm"
+      template="templates/send_feedback_confirm.cpt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      for="*"
       name="site-feedback-template"
       template="templates/site_feedback_template.pt"
       permission="zope.Public"

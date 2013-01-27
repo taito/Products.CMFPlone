@@ -20,6 +20,7 @@ class ContactInfoView(BrowserView):
             self.validate()
             if not self.errors:
                 self.send_feedback()
+                return self.request.response.redirect('@@send-feedback-confirm')
         return self.index()
 
     def validate(self):
