@@ -13,15 +13,6 @@
   </class>
 
   <browser:page
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      name="author"
-      class=".author.ContentAuthor"
-      permission="zope.Public"
-      template="templates/author.pt"
-      />
-
-
-  <browser:page
       for="*"
       name="breadcrumbs_view"
       class=".navigation.PhysicalNavigationBreadcrumbs"
@@ -91,6 +82,15 @@
       template="templates/contact-info.pt"
       permission="zope.Public"
       />
+
+  <browser:page
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      name="author"
+      class=".author.ContentAuthor"
+      permission="zope.Public"
+      template="templates/author.pt"
+      />
+
 
    <adapter for="*
                 .interfaces.INavigationTree"
