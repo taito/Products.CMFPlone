@@ -1,5 +1,4 @@
 from Products.CMFPlone.tests import PloneTestCase
-from zExceptions import Forbidden
 from cStringIO import StringIO
 
 from DateTime import DateTime
@@ -60,13 +59,6 @@ class TestPrefsUserManage(PloneTestCase.PloneTestCase):
                         'fullname': fullname,
                         'email': email,
                         'last_login_time': DateTime(last_login_time), })
-
-    def test_ploneChangePasswordPostOnly(self):
-        self.login(default_user)
-        self.setRequestMethod('GET')
-        self.assertRaises(Forbidden, self.portal.plone_change_password,
-                          current=default_password, password=default_password,
-                          password_confirm=default_password)
 
 
 class TestAccessControlPanelScripts(PloneTestCase.FunctionalTestCase):
